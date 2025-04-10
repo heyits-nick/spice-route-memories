@@ -1,0 +1,258 @@
+
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { getProductBySlug } from "@/data/products";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCart, ProductSize } from "@/context/CartContext";
+import { Separator } from "@/components/ui/separator";
+import { ShoppingCart, ArrowLeft, Leaf, Info, Heart } from "lucide-react";
+import { toast } from "sonner";
+
+const ProductDetail = () => {
+  const { slug } = useParams<{ slug: string }>();
+  const product = getProductBySlug(slug || "");
+  const { addItem } = useCart();
+  const [selectedSize, setSelectedSize] = useState<ProductSize>("trial");
+  const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!product) {
+      toast.error("Product not found!");
+    }
+  }, [product, slug]);
+
+  if (!product) {
+    return (
+      <div>
+        <Navbar />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+          <h2 className="text-2xl font-bold">Product not found</h2>
+          <Link to="/products" className="text-spice-red hover:underline mt-4 inline-block">
+            Return to all products
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const handleAddToCart = () => {
+    const price = selectedSize === "trial" ? 10 : 50;
+    
+    addItem({
+      id: product.id,
+      name: product.name,
+      price,
+      image: product.image,
+      size: selectedSize,
+      quantity,
+    });
+  };
+
+  return (
+    <div>
+      <Navbar />
+      
+      <main className="py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <Link 
+              to="/products" 
+              className="inline-flex items-center text-spice-brown hover:text-spice-red transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" /> Back to Products
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            <div>
+              <div className="rounded-lg overflow-hidden shadow-lg">
+                <img 
+                  src={product.image} 
+                  alt={product.name}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              
+              <div className="mt-6 bg-spice-cream/30 p-4 rounded-lg">
+                <div className="flex items-start space-x-2">
+                  <Info className="h-5 w-5 text-spice-red flex-shrink-0 mt-1" />
+                  <p className="text-sm">
+                    <span className="font-medium">Region:</span> {product.region} style masala, 
+                    crafted using traditional grinding methods to preserve authentic flavors.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold font-playfair text-spice-brown mb-2">
+                {product.name}
+              </h1>
+              
+              <div className="flex items-center space-x-2 mb-4">
+                <Heart className="h-4 w-4 text-spice-red" />
+                <span className="text-sm">Handcrafted in small batches</span>
+              </div>
+              
+              <p className="text-lg text-gray-700 mb-6">
+                {product.longDescription}
+              </p>
+              
+              <Separator className="my-6" />
+              
+              <div className="mb-6">
+                <h3 className="text-lg font-medium mb-3">Select Size:</h3>
+                <div className="flex space-x-4">
+                  <Button
+                    type="button"
+                    variant={selectedSize === "trial" ? "default" : "outline"}
+                    className={`flex-1 ${
+                      selectedSize === "trial" 
+                        ? "bg-spice-turmeric hover:bg-spice-turmeric/90 text-black" 
+                        : "border-spice-brown/20"
+                    }`}
+                    onClick={() => setSelectedSize("trial")}
+                  >
+                    Trial Pack - 100g
+                    <span className="ml-1 font-normal">($10)</span>
+                  </Button>
+                  
+                  <Button
+                    type="button"
+                    variant={selectedSize === "full" ? "default" : "outline"}
+                    className={`flex-1 ${
+                      selectedSize === "full" 
+                        ? "bg-spice-turmeric hover:bg-spice-turmeric/90 text-black" 
+                        : "border-spice-brown/20"
+                    }`}
+                    onClick={() => setSelectedSize("full")}
+                  >
+                    Full Size - 1kg
+                    <span className="ml-1 font-normal">($50)</span>
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="mb-6">
+                <h3 className="text-lg font-medium mb-3">Quantity:</h3>
+                <div className="flex">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10 border border-spice-brown/20"
+                    onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                    disabled={quantity === 1}
+                  >
+                    -
+                  </Button>
+                  
+                  <div className="h-10 px-4 flex items-center justify-center border-t border-b border-spice-brown/20 min-w-[60px] text-center">
+                    {quantity}
+                  </div>
+                  
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10 border border-spice-brown/20"
+                    onClick={() => setQuantity(prev => prev + 1)}
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="mb-6">
+                <h3 className="text-lg font-medium mb-2">Price:</h3>
+                <div className="text-2xl font-bold">
+                  ${selectedSize === "trial" ? 10 * quantity : 50 * quantity}
+                </div>
+                {quantity >= 3 && selectedSize === "trial" && (
+                  <div className="badge-offer mt-2">
+                    Buy 2, Get 1 Free Offer Applied!
+                  </div>
+                )}
+              </div>
+              
+              <Button
+                onClick={handleAddToCart}
+                className="w-full bg-spice-red hover:bg-spice-red/90 text-white py-6 text-lg"
+              >
+                <ShoppingCart className="mr-2 h-5 w-5" />
+                Add to Cart
+              </Button>
+              
+              <div className="mt-4 text-sm text-gray-500 flex items-center">
+                <Leaf className="mr-2 h-4 w-4 text-spice-green" />
+                Free shipping on orders over $35
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-12">
+            <Tabs defaultValue="ingredients" className="w-full">
+              <TabsList className="w-full grid grid-cols-3 h-auto">
+                <TabsTrigger 
+                  value="ingredients" 
+                  className="py-3 data-[state=active]:text-spice-red"
+                >
+                  Ingredients
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="cultural" 
+                  className="py-3 data-[state=active]:text-spice-red"
+                >
+                  Cultural Significance
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="usage" 
+                  className="py-3 data-[state=active]:text-spice-red"
+                >
+                  Usage Instructions
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="ingredients" className="mt-4 p-6 bg-white rounded-lg border border-spice-brown/10">
+                <h3 className="text-xl font-semibold mb-4">Ingredients</h3>
+                <ul className="space-y-2">
+                  {product.ingredients.map((ingredient, index) => (
+                    <li 
+                      key={index} 
+                      className="flex items-center text-gray-700"
+                    >
+                      <div className="w-2 h-2 bg-spice-turmeric rounded-full mr-3"></div>
+                      {ingredient}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-sm text-gray-500">
+                  All ingredients are non-GMO, preservative-free, and sourced from trusted farms in South India.
+                </p>
+              </TabsContent>
+              
+              <TabsContent value="cultural" className="mt-4 p-6 bg-white rounded-lg border border-spice-brown/10">
+                <h3 className="text-xl font-semibold mb-4">Cultural Significance</h3>
+                <p className="text-gray-700">{product.culturalInfo}</p>
+              </TabsContent>
+              
+              <TabsContent value="usage" className="mt-4 p-6 bg-white rounded-lg border border-spice-brown/10">
+                <h3 className="text-xl font-semibold mb-4">How to Use</h3>
+                <p className="text-gray-700">{product.usageInfo}</p>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+};
+
+export default ProductDetail;
