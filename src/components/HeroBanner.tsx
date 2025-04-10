@@ -1,5 +1,8 @@
+
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { mockImages } from "../mock/images";
+
 const HeroBanner = () => {
   return <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
       {/* Decorative kolam pattern overlay */}
@@ -32,7 +35,7 @@ const HeroBanner = () => {
           <div className="order-1 md:order-2">
             <div className="relative">
               <div className="rounded-lg overflow-hidden shadow-2xl">
-                <img alt="Traditional South Indian spices arranged in brass vessels" className="w-full h-[300px] md:h-[400px] object-cover" src="/lovable-uploads/dfde5322-e893-451e-9be1-51739db7bf50.png" />
+                <img alt="Traditional South Indian spices arranged in brass vessels" className="w-full h-[300px] md:h-[400px] object-cover" src={mockImages.rasamPowder} />
               </div>
               
               <div className="absolute -bottom-4 -right-4 bg-spice-turmeric text-black px-4 py-2 rounded-md shadow-lg">

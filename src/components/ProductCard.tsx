@@ -4,6 +4,7 @@ import { useCart, CartItem, ProductSize } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ShoppingCart } from "lucide-react";
+import { mockImages } from "@/mock/images"; 
 
 interface ProductCardProps {
   id: string;

@@ -21,8 +21,17 @@ const OfferBanner = ({ className = "" }: OfferBannerProps) => {
           </div>
         </div>
         <Link 
-          to="/products" 
+          to="/#combo-offer" 
           className="btn-primary bg-white hover:bg-white/90 text-spice-red text-sm px-4 py-2"
+          onClick={(e) => {
+            e.preventDefault();
+            const comboSection = document.getElementById('combo-offer');
+            if (comboSection) {
+              comboSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              window.location.href = '/#combo-offer';
+            }
+          }}
         >
           Shop Now
         </Link>
