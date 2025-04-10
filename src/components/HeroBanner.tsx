@@ -1,10 +1,7 @@
-
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-
 const HeroBanner = () => {
-  return (
-    <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
+  return <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
       {/* Decorative kolam pattern overlay */}
       <div className="absolute inset-0 opacity-10 bg-kolam-pattern bg-repeat"></div>
       
@@ -21,18 +18,12 @@ const HeroBanner = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                to="/products"
-                className="btn-primary inline-flex items-center justify-center"
-              >
+              <Link to="/products" className="btn-primary inline-flex items-center justify-center">
                 Explore Our Masalas
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
               
-              <Link
-                to="/about"
-                className="btn-secondary bg-transparent border border-white hover:bg-white/10 inline-flex items-center justify-center"
-              >
+              <Link to="/about" className="btn-secondary bg-transparent border border-white hover:bg-white/10 inline-flex items-center justify-center">
                 Our Story
               </Link>
             </div>
@@ -41,11 +32,7 @@ const HeroBanner = () => {
           <div className="order-1 md:order-2">
             <div className="relative">
               <div className="rounded-lg overflow-hidden shadow-2xl">
-                <img
-                  src="/hero-image.jpg"
-                  alt="Traditional South Indian spices arranged in brass vessels"
-                  className="w-full h-[300px] md:h-[400px] object-cover"
-                />
+                <img alt="Traditional South Indian spices arranged in brass vessels" className="w-full h-[300px] md:h-[400px] object-cover" src="/lovable-uploads/dfde5322-e893-451e-9be1-51739db7bf50.png" />
               </div>
               
               <div className="absolute -bottom-4 -right-4 bg-spice-turmeric text-black px-4 py-2 rounded-md shadow-lg">
@@ -55,8 +42,6 @@ const HeroBanner = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default HeroBanner;
