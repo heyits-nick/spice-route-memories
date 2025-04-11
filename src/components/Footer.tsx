@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Column 1: Logo and about */}
           <div>
-            <h2 className="text-2xl font-bold font-playfair mb-4">Grandma's Masalas</h2>
+            <h2 className="text-2xl font-bold font-playfair mb-4">Pudilicious Masalas</h2>
             <p className="mb-4 text-sm">
               Bringing authentic South Indian flavors to your kitchen with recipes passed down through generations.
             </p>
@@ -71,7 +71,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/20 mt-8 pt-6 text-sm text-center">
-          <p>&copy; {new Date().getFullYear()} Grandma's Masalas. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Pudilicious Masalas. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -79,3 +79,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
