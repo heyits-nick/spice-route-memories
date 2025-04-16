@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
@@ -21,7 +22,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">
               <h1 className="text-2xl md:text-3xl font-bold font-playfair tracking-tight text-spice-brown">
-                Pudilicious <span className="text-spice-red">Masalas</span>
+                Pudilicious
               </h1>
             </Link>
           </div>
