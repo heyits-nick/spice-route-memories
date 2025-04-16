@@ -12,17 +12,17 @@ const HeroBanner = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="order-2 md:order-1 animate-fade-in">
             <h1 className="text-3xl md:text-5xl font-bold font-playfair leading-tight mb-4">
-              Bringing Grandma's Masalas to Your Table
+              Bringing Authentic Flavors Home
             </h1>
             
             <p className="text-lg md:text-xl mb-6 max-w-md">
-              Authentic South Indian spice blends made with love, 
-              just the way our grandmothers crafted them for generations.
+              Explore the rich tapestry of South Indian spices, 
+              crafted with generations of culinary wisdom.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/products" className="btn-primary inline-flex items-center justify-center">
-                Explore Our Masalas
+                Explore Our Spices
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
               
@@ -35,11 +35,15 @@ const HeroBanner = () => {
           <div className="order-1 md:order-2">
             <div className="relative">
               <div className="rounded-lg overflow-hidden shadow-2xl">
-                <img alt="Traditional South Indian spices arranged in brass vessels" className="w-full h-[300px] md:h-[400px] object-cover" src={mockImages.rasamPowder} />
+                <img 
+                  alt="Traditional South Indian spices arranged on a brass plate" 
+                  className="w-full h-[300px] md:h-[400px] object-cover" 
+                  src={mockImages.heroSpices} 
+                />
               </div>
               
               <div className="absolute -bottom-4 -right-4 bg-spice-turmeric text-black px-4 py-2 rounded-md shadow-lg">
-                <p className="text-sm font-semibold">Tradition in every pack</p>
+                <p className="text-sm font-semibold">Tradition in every pinch</p>
               </div>
             </div>
           </div>
