@@ -1,3 +1,4 @@
+
 export const mockImages = {
   heroImage: "/hero-image.jpg",
   rasamPowder: "/lovable-uploads/9532a55f-36d6-464f-8955-492e9f628734.png",
@@ -6,7 +7,8 @@ export const mockImages = {
   subtleTexture: "/subtle-texture.png",
   kolamDivider: "/kolam-divider.svg",
   kolamPattern: "/kolam-pattern.svg",
-  heroSpices: "/lovable-uploads/cfe93110-a5b5-43f8-9094-e44da6a39665.png"
+  heroSpices: "/lovable-uploads/cfe93110-a5b5-43f8-9094-e44da6a39665.png",
+  groundnutChutney: "/lovable-uploads/dfde5322-e893-451e-9be1-51739db7bf50.png"
 };
 
 // Since we don't have actual image uploads, we're using placeholder references

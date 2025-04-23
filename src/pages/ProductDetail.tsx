@@ -10,6 +10,7 @@ import { useCart, ProductSize } from "@/context/CartContext";
 import { Separator } from "@/components/ui/separator";
 import { ShoppingCart, ArrowLeft, Leaf, Info, Heart } from "lucide-react";
 import { toast } from "sonner";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -41,7 +42,7 @@ const ProductDetail = () => {
   }
 
   const handleAddToCart = () => {
-    const price = selectedSize === "trial" ? 10 : 50;
+    const price = selectedSize === "trial" ? product.price * 0.5 : product.price;
     
     addItem({
       id: product.id,
@@ -51,6 +52,8 @@ const ProductDetail = () => {
       size: selectedSize,
       quantity,
     });
+    
+    toast.success(`${product.name} added to your cart`);
   };
 
   return (
@@ -82,7 +85,7 @@ const ProductDetail = () => {
                 <div className="flex items-start space-x-2">
                   <Info className="h-5 w-5 text-spice-red flex-shrink-0 mt-1" />
                   <p className="text-sm">
-                    <span className="font-medium">Region:</span> {product.region} style masala, 
+                    <span className="font-medium">Region:</span> {product.region}, {product.state} style pudi, 
                     crafted using traditional grinding methods to preserve authentic flavors.
                   </p>
                 </div>
@@ -119,7 +122,7 @@ const ProductDetail = () => {
                     onClick={() => setSelectedSize("trial")}
                   >
                     Trial Pack - 100g
-                    <span className="ml-1 font-normal">($10)</span>
+                    <span className="ml-1 font-normal">(${(product.price * 0.5).toFixed(2)})</span>
                   </Button>
                   
                   <Button
@@ -132,8 +135,8 @@ const ProductDetail = () => {
                     }`}
                     onClick={() => setSelectedSize("full")}
                   >
-                    Full Size - 1kg
-                    <span className="ml-1 font-normal">($50)</span>
+                    Full Size - 500g
+                    <span className="ml-1 font-normal">(${product.price.toFixed(2)})</span>
                   </Button>
                 </div>
               </div>
@@ -171,7 +174,10 @@ const ProductDetail = () => {
               <div className="mb-6">
                 <h3 className="text-lg font-medium mb-2">Price:</h3>
                 <div className="text-2xl font-bold">
-                  ${selectedSize === "trial" ? 10 * quantity : 50 * quantity}
+                  ${selectedSize === "trial" 
+                    ? (product.price * 0.5 * quantity).toFixed(2)
+                    : (product.price * quantity).toFixed(2)
+                  }
                 </div>
                 {quantity >= 3 && selectedSize === "trial" && (
                   <div className="badge-offer mt-2">
@@ -197,7 +203,7 @@ const ProductDetail = () => {
           
           <div className="mt-12">
             <Tabs defaultValue="ingredients" className="w-full">
-              <TabsList className="w-full grid grid-cols-3 h-auto">
+              <TabsList className="w-full grid grid-cols-4 h-auto">
                 <TabsTrigger 
                   value="ingredients" 
                   className="py-3 data-[state=active]:text-spice-red"
@@ -208,13 +214,19 @@ const ProductDetail = () => {
                   value="cultural" 
                   className="py-3 data-[state=active]:text-spice-red"
                 >
-                  Cultural Significance
+                  History
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="nutrition" 
+                  className="py-3 data-[state=active]:text-spice-red"
+                >
+                  Nutrition & Allergens
                 </TabsTrigger>
                 <TabsTrigger 
                   value="usage" 
                   className="py-3 data-[state=active]:text-spice-red"
                 >
-                  Usage Instructions
+                  Usage & Recipes
                 </TabsTrigger>
               </TabsList>
               
@@ -237,13 +249,85 @@ const ProductDetail = () => {
               </TabsContent>
               
               <TabsContent value="cultural" className="mt-4 p-6 bg-white rounded-lg border border-spice-brown/10">
-                <h3 className="text-xl font-semibold mb-4">Cultural Significance</h3>
-                <p className="text-gray-700">{product.culturalInfo}</p>
+                <h3 className="text-xl font-semibold mb-4">Cultural Significance & History</h3>
+                <p className="text-gray-700 mb-6">{product.culturalInfo}</p>
+                
+                {product.videoUrl && (
+                  <div className="mt-8">
+                    <h4 className="text-lg font-medium mb-3">Watch: The Story Behind Our {product.name}</h4>
+                    <div className="aspect-video">
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        src={product.videoUrl}
+                        title={`The story of ${product.name}`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                  </div>
+                )}
+              </TabsContent>
+              
+              <TabsContent value="nutrition" className="mt-4 p-6 bg-white rounded-lg border border-spice-brown/10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <h3 className="text-xl font-semibold mb-4">Nutritional Benefits</h3>
+                    <ul className="space-y-3">
+                      {product.nutritionalBenefits.map((benefit, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="text-spice-turmeric font-bold mr-2">•</span>
+                          <span className="text-gray-700">{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-xl font-semibold mb-4 text-spice-red">Allergy Information</h3>
+                    <ul className="space-y-3">
+                      {product.allergyWarnings.map((warning, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="text-spice-red font-bold mr-2">!</span>
+                          <span className="text-gray-700">{warning}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </TabsContent>
               
               <TabsContent value="usage" className="mt-4 p-6 bg-white rounded-lg border border-spice-brown/10">
                 <h3 className="text-xl font-semibold mb-4">How to Use</h3>
-                <p className="text-gray-700">{product.usageInfo}</p>
+                <p className="text-gray-700 mb-6">{product.usageInfo}</p>
+                
+                <Collapsible className="mb-4">
+                  <CollapsibleTrigger className="flex items-center justify-between w-full bg-spice-cream/50 p-3 rounded-md text-left">
+                    <span className="font-medium">Pairing Suggestions</span>
+                    <span>+</span>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="p-3 border border-t-0 rounded-b-md border-spice-brown/10">
+                    <p className="text-gray-700">{product.pairingInfo}</p>
+                  </CollapsibleContent>
+                </Collapsible>
+                
+                <Collapsible>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full bg-spice-cream/50 p-3 rounded-md text-left">
+                    <span className="font-medium">Recipe Ideas</span>
+                    <span>+</span>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="p-3 border border-t-0 rounded-b-md border-spice-brown/10">
+                    <ul className="space-y-2">
+                      {product.recipeIdeas.map((recipe, index) => (
+                        <li key={index} className="flex items-center">
+                          <div className="w-2 h-2 bg-spice-turmeric rounded-full mr-3"></div>
+                          <span className="text-gray-700">{recipe}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CollapsibleContent>
+                </Collapsible>
               </TabsContent>
             </Tabs>
           </div>
