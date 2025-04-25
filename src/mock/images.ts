@@ -8,7 +8,7 @@ export const mockImages = {
   kolamPattern: "/kolam-pattern.svg",
   heroSpices: "/lovable-uploads/cfe93110-a5b5-43f8-9094-e44da6a39665.png",
   groundnutChutney: "/lovable-uploads/dfde5322-e893-451e-9be1-51739db7bf50.png",
-  logo: "/lovable-uploads/cf4fde3a-a0a1-46ba-84c1-d7007f41127d.png"
+  logo: "/lovable-uploads/9461b30d-a9a2-49b8-a9d5-4d5caa3e3284.png"
 };
 
 // Since we don't have actual image uploads, we're using placeholder references
