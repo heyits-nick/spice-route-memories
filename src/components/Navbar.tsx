@@ -23,7 +23,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">
               <img 
-                src={mockImages.logo} 
+                src="/lovable-uploads/9461b30d-a9a2-49b8-a9d5-4d5caa3e3284.png" 
                 alt="Pudilicious logo" 
                 className="h-24 md:h-48 w-auto"
               />
@@ -121,3 +121,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
