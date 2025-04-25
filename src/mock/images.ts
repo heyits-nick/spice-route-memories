@@ -1,3 +1,4 @@
+
 export const mockImages = {
   heroImage: "/hero-image.jpg",
   rasamPowder: "/lovable-uploads/9532a55f-36d6-464f-8955-492e9f628734.png",
@@ -10,6 +11,3 @@ export const mockImages = {
   groundnutChutney: "/lovable-uploads/dfde5322-e893-451e-9be1-51739db7bf50.png",
   logo: "/lovable-uploads/9461b30d-a9a2-49b8-a9d5-4d5caa3e3284.png"
 };
-
-// Since we don't have actual image uploads, we're using placeholder references
-// In a real implementation, these would be actual images stored in the public folder
