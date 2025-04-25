@@ -15,7 +15,7 @@ const HeroBanner = () => {
             <img 
               src={mockImages.logo} 
               alt="Pudilicious logo" 
-              className="h-48 md:h-64 w-auto" // Increased logo size
+              className="h-48 md:h-64 w-auto"
             />
           </div>
           

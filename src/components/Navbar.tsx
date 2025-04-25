@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
@@ -24,7 +25,7 @@ const Navbar = () => {
               <img 
                 src={mockImages.logo} 
                 alt="Pudilicious logo" 
-                className="h-12 w-auto"
+                className="h-24 md:h-48 w-auto"
               />
             </Link>
           </div>

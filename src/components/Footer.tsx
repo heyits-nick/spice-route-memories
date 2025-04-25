@@ -13,7 +13,7 @@ const Footer = () => {
               <img 
                 src={mockImages.logo} 
                 alt="Pudilicious logo" 
-                className="h-12 w-auto"
+                className="h-24 md:h-48 w-auto"
               />
             </div>
             <p className="mb-4 text-sm">
