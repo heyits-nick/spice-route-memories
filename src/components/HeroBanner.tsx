@@ -11,9 +11,14 @@ const HeroBanner = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold font-playfair leading-tight mb-4">
-            Pudi'<span className="relative">l<span className="absolute -top-1 -right-1 text-red-500 font-bold">.</span></span>icious
-          </h1>
+          <div className="flex justify-center mb-6">
+            <img 
+              src={mockImages.logo} 
+              alt="Pudilicious logo" 
+              className="h-24 md:h-32 w-auto"
+            />
+          </div>
+          
           <p className="text-xl md:text-2xl italic font-medium mb-6">
             Taste Grounded with Tradition
           </p>

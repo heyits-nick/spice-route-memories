@@ -1,6 +1,6 @@
-
 import { Mail, Phone, MapPin, Instagram, Facebook, Youtube, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
+import { mockImages } from "@/mock/images";
 
 const Footer = () => {
   return (
@@ -9,9 +9,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Column 1: Logo and about */}
           <div>
-            <h2 className="text-2xl font-bold font-playfair mb-4">
-              Pudi'<span className="relative">l<span className="absolute -top-1 -right-1 text-red-500 font-bold">.</span></span>icious
-            </h2>
+            <div className="mb-4">
+              <img 
+                src={mockImages.logo} 
+                alt="Pudilicious logo" 
+                className="h-12 w-auto"
+              />
+            </div>
             <p className="mb-4 text-sm">
               Your one-stop shop for traditional Indian flavors. Explore our varieties of pudis, fast-meals 
               and snacks from different regions of Karnataka and other south Indian flavors.

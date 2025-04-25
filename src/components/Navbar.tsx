@@ -1,8 +1,8 @@
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { mockImages } from "@/mock/images";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,9 +21,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">
-              <h1 className="text-2xl md:text-3xl font-bold font-playfair tracking-tight text-spice-brown">
-                Pudilicious
-              </h1>
+              <img 
+                src={mockImages.logo} 
+                alt="Pudilicious logo" 
+                className="h-12 w-auto"
+              />
             </Link>
           </div>
 
