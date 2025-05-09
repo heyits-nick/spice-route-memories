@@ -1,22 +1,15 @@
-
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { mockImages } from "../mock/images";
-
 const HeroBanner = () => {
-  return (
-    <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
+  return <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
       {/* Decorative kolam pattern overlay */}
       <div className="absolute inset-0 opacity-10 bg-kolam-pattern bg-repeat"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10">
         <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <img 
-              src={mockImages.logo} 
-              alt="Pudilicious logo" 
-              className="h-48 md:h-64 w-auto"
-            />
+          <div className="flex justify-center mb-6 px-0 py-0 my-0 mx-[240px] rounded-none">
+            <img src={mockImages.logo} alt="Pudilicious logo" className="h-48 md:h-64 w-auto object-fill" />
           </div>
           
           <p className="text-xl md:text-2xl italic font-medium mb-6">
@@ -49,11 +42,7 @@ const HeroBanner = () => {
           <div className="order-1 md:order-2">
             <div className="relative">
               <div className="rounded-lg overflow-hidden shadow-2xl">
-                <img 
-                  alt="Traditional South Indian spices and pudis arranged on brass plates" 
-                  className="w-full h-[300px] md:h-[400px] object-cover" 
-                  src={mockImages.heroSpices} 
-                />
+                <img alt="Traditional South Indian spices and pudis arranged on brass plates" className="w-full h-[300px] md:h-[400px] object-cover" src={mockImages.heroSpices} />
               </div>
               
               <div className="absolute -bottom-4 -right-4 bg-spice-turmeric text-black px-4 py-2 rounded-md shadow-lg">
@@ -63,8 +52,6 @@ const HeroBanner = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default HeroBanner;
