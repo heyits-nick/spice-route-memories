@@ -4,13 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart, ProductSize } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Trash2, ShoppingCart, ArrowRight, Check } from "lucide-react";
+import { Trash2, ShoppingCart, ArrowRight, Check, LogIn } from "lucide-react";
 import { toast } from "sonner";
 
 const Cart = () => {
   const { cart, subtotal, discount, total, removeItem, updateQuantity, clearCart } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [processing, setProcessing] = useState(false);
 
@@ -20,15 +22,16 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    setProcessing(true);
+    if (!user) {
+      // If user is not logged in, redirect to auth page
+      // Store the current path to redirect back after login
+      sessionStorage.setItem("redirectPath", "/checkout");
+      navigate("/auth");
+      return;
+    }
     
-    // Simulate checkout process
-    setTimeout(() => {
-      toast.success("Order placed successfully!");
-      clearCart();
-      navigate("/");
-      setProcessing(false);
-    }, 1500);
+    // If user is logged in, proceed to checkout
+    navigate("/checkout");
   };
 
   if (cart.length === 0) {
@@ -198,14 +201,20 @@ const Cart = () => {
                   
                   <Button
                     onClick={handleCheckout}
-                    disabled={processing}
                     className="w-full mt-6 bg-spice-red hover:bg-spice-red/90 text-white py-6"
                   >
-                    {processing ? "Processing..." : "Proceed to Checkout"}
+                    {!user ? (
+                      <>
+                        <LogIn className="mr-2 h-4 w-4" />
+                        Sign In to Checkout
+                      </>
+                    ) : (
+                      <>Proceed to Checkout</>
+                    )}
                   </Button>
                   
                   <div className="mt-4 text-center text-xs text-gray-500">
-                    Secure payment processing
+                    Secure checkout and payment
                   </div>
                 </div>
               </div>

@@ -1,0 +1,260 @@
+
+import { useState } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { ArrowRight, Mail, Facebook, Loader2 } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+
+const Auth = () => {
+  const { signIn, signUp, signInWithProvider, user, isLoading } = useAuth();
+  const navigate = useNavigate();
+
+  const [activeTab, setActiveTab] = useState<string>("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleAuthRedirect = () => {
+    const redirectPath = sessionStorage.getItem("redirectPath") || "/";
+    navigate(redirectPath);
+    sessionStorage.removeItem("redirectPath");
+  };
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    const { error } = await signIn(email, password);
+    
+    setIsSubmitting(false);
+    
+    if (!error) {
+      handleAuthRedirect();
+    }
+  };
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    const { error } = await signUp(email, password, { 
+      first_name: firstName,
+      last_name: lastName
+    });
+    
+    setIsSubmitting(false);
+    
+    if (!error) {
+      setActiveTab("login");
+    }
+  };
+
+  const handleProviderSignIn = async (provider: 'google' | 'facebook') => {
+    await signInWithProvider(provider);
+  };
+
+  // If user is already authenticated and not in a loading state, redirect them
+  if (user && !isLoading) {
+    return <Navigate to="/" />;
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-grow">
+        <div className="max-w-md mx-auto px-4 py-16">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-spice-brown font-playfair">
+              Welcome to Pudi'licious
+            </h1>
+            <p className="text-gray-600 mt-2">
+              Sign in to your account or create a new one
+            </p>
+          </div>
+          
+          <div className="bg-white p-8 rounded-lg shadow-md border border-spice-lightBrown/10">
+            <Tabs 
+              defaultValue="login"
+              value={activeTab} 
+              onValueChange={setActiveTab} 
+              className="w-full"
+            >
+              <TabsList className="grid grid-cols-2 mb-8">
+                <TabsTrigger value="login">Sign In</TabsTrigger>
+                <TabsTrigger value="register">Create Account</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="login">
+                <form onSubmit={handleSignIn} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="spice@pudilicious.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password">Password</Label>
+                      <a 
+                        href="#" 
+                        className="text-sm text-spice-red hover:underline"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          // Handle forgot password
+                        }}
+                      >
+                        Forgot password?
+                      </a>
+                    </div>
+                    <Input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-spice-red hover:bg-spice-red/90"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <ArrowRight className="mr-2 h-4 w-4" />
+                    )}
+                    Sign In
+                  </Button>
+                </form>
+              </TabsContent>
+              
+              <TabsContent value="register">
+                <form onSubmit={handleSignUp} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">First Name</Label>
+                      <Input
+                        id="firstName"
+                        placeholder="John"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Last Name</Label>
+                      <Input
+                        id="lastName"
+                        placeholder="Doe"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="registerEmail">Email</Label>
+                    <Input
+                      id="registerEmail"
+                      type="email"
+                      placeholder="spice@pudilicious.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="registerPassword">Password</Label>
+                    <Input
+                      id="registerPassword"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <p className="text-xs text-gray-500">
+                      Password must be at least 6 characters long
+                    </p>
+                  </div>
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-spice-red hover:bg-spice-red/90"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <ArrowRight className="mr-2 h-4 w-4" />
+                    )}
+                    Create Account
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
+            
+            <div className="mt-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator className="w-full" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+              
+              <div className="mt-6 grid grid-cols-2 gap-4">
+                <Button 
+                  type="button" 
+                  variant="outline"
+                  onClick={() => handleProviderSignIn('google')}
+                  className="w-full"
+                >
+                  <FcGoogle className="mr-2 h-5 w-5" />
+                  Google
+                </Button>
+                
+                <Button 
+                  type="button" 
+                  variant="outline"
+                  onClick={() => handleProviderSignIn('facebook')}
+                  className="w-full bg-[#1877F2] text-white hover:bg-[#1877F2]/90"
+                >
+                  <Facebook className="mr-2 h-5 w-5" />
+                  Facebook
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+};
+
+export default Auth;
