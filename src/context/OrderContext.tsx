@@ -47,13 +47,14 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
       const finalTotal = total >= 35 ? total : total + 5;
       
       // Create the order in the database
+      // Convert the ShippingAddress to a regular object so it can be stored as JSONB
       const { data: orderData, error: orderError } = await supabase
         .from("orders")
         .insert({
           user_id: user.id,
           total: finalTotal,
           payment_intent_id: paymentIntentId || null,
-          shipping_address: shippingAddress,
+          shipping_address: shippingAddress as any, // Cast to any to avoid type issues with JSONB
           status: "pending"
         })
         .select()
