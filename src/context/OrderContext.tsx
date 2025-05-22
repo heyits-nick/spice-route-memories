@@ -49,14 +49,13 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
       // Create the order in the database
       const { data: orderData, error: orderError } = await supabase
         .from("orders")
-        .insert([
-          {
-            user_id: user.id,
-            total: finalTotal,
-            payment_intent_id: paymentIntentId || null,
-            shipping_address: shippingAddress,
-          },
-        ])
+        .insert({
+          user_id: user.id,
+          total: finalTotal,
+          payment_intent_id: paymentIntentId || null,
+          shipping_address: shippingAddress,
+          status: "pending"
+        })
         .select()
         .single();
         
