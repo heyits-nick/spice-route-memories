@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PhoneAuth from "@/components/PhoneAuth";
 import { ArrowRight, Mail, Facebook, Loader2 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -16,7 +17,7 @@ const Auth = () => {
   const { signIn, signUp, signInWithProvider, user, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState<string>("login");
+  const [activeTab, setActiveTab] = useState<string>("phone");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -84,15 +85,20 @@ const Auth = () => {
           
           <div className="bg-white p-8 rounded-lg shadow-md border border-spice-lightBrown/10">
             <Tabs 
-              defaultValue="login"
+              defaultValue="phone"
               value={activeTab} 
               onValueChange={setActiveTab} 
               className="w-full"
             >
-              <TabsList className="grid grid-cols-2 mb-8">
-                <TabsTrigger value="login">Sign In</TabsTrigger>
-                <TabsTrigger value="register">Create Account</TabsTrigger>
+              <TabsList className="grid grid-cols-3 mb-8">
+                <TabsTrigger value="phone">Phone</TabsTrigger>
+                <TabsTrigger value="login">Email</TabsTrigger>
+                <TabsTrigger value="register">Register</TabsTrigger>
               </TabsList>
+
+              <TabsContent value="phone">
+                <PhoneAuth onSuccess={handleAuthRedirect} />
+              </TabsContent>
               
               <TabsContent value="login">
                 <form onSubmit={handleSignIn} className="space-y-4">

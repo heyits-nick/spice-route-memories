@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getProductBySlug } from "@/data/products";
@@ -8,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCart, ProductSize } from "@/context/CartContext";
 import { Separator } from "@/components/ui/separator";
-import { ShoppingCart, ArrowLeft, Leaf, Info, Heart } from "lucide-react";
+import { ShoppingCart, ArrowLeft, Leaf, Info, Heart, Plus, Minus } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
@@ -56,6 +55,16 @@ const ProductDetail = () => {
     toast.success(`${product.name} added to your cart`);
   };
 
+  const incrementQuantity = () => {
+    setQuantity(prev => prev + 1);
+  };
+
+  const decrementQuantity = () => {
+    setQuantity(prev => Math.max(1, prev - 1));
+  };
+
+  const currentPrice = selectedSize === "trial" ? product.price * 0.5 : product.price;
+
   return (
     <div>
       <Navbar />
@@ -71,7 +80,8 @@ const ProductDetail = () => {
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Product Image */}
             <div>
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <img 
@@ -92,141 +102,153 @@ const ProductDetail = () => {
               </div>
             </div>
             
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold font-playfair text-spice-brown mb-2">
-                {product.name}
-              </h1>
-              
-              <div className="flex items-center space-x-2 mb-4">
-                <Heart className="h-4 w-4 text-spice-red" />
-                <span className="text-sm">Handcrafted in small batches</span>
+            {/* Product Details */}
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold font-playfair text-spice-brown mb-2">
+                  {product.name}
+                </h1>
+                
+                <div className="flex items-center space-x-2 mb-4">
+                  <Heart className="h-4 w-4 text-spice-red" />
+                  <span className="text-sm">Handcrafted in small batches</span>
+                </div>
+                
+                <p className="text-lg text-gray-700 mb-6">
+                  {product.longDescription}
+                </p>
               </div>
               
-              <p className="text-lg text-gray-700 mb-6">
-                {product.longDescription}
-              </p>
+              <Separator />
               
-              <Separator className="my-6" />
-              
-              <div className="mb-6">
-                <h3 className="text-lg font-medium mb-3">Select Size:</h3>
-                <div className="flex space-x-4">
-                  <Button
-                    type="button"
-                    variant={selectedSize === "trial" ? "default" : "outline"}
-                    className={`flex-1 ${
+              {/* Size Selection */}
+              <div>
+                <h3 className="text-lg font-medium mb-4">Choose Your Size:</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div 
+                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                       selectedSize === "trial" 
-                        ? "bg-spice-turmeric hover:bg-spice-turmeric/90 text-black" 
-                        : "border-spice-brown/20"
+                        ? "border-spice-turmeric bg-spice-turmeric/10" 
+                        : "border-gray-200 hover:border-spice-turmeric/50"
                     }`}
                     onClick={() => setSelectedSize("trial")}
                   >
-                    Trial Pack - 100g
-                    <span className="ml-1 font-normal">(${(product.price * 0.5).toFixed(2)})</span>
-                  </Button>
+                    <div className="text-center">
+                      <h4 className="font-semibold text-spice-brown">Trial Pack</h4>
+                      <p className="text-sm text-gray-600">100g - Perfect for trying</p>
+                      <p className="text-lg font-bold text-spice-red mt-2">
+                        ${(product.price * 0.5).toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
                   
-                  <Button
-                    type="button"
-                    variant={selectedSize === "full" ? "default" : "outline"}
-                    className={`flex-1 ${
+                  <div 
+                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
                       selectedSize === "full" 
-                        ? "bg-spice-turmeric hover:bg-spice-turmeric/90 text-black" 
-                        : "border-spice-brown/20"
+                        ? "border-spice-turmeric bg-spice-turmeric/10" 
+                        : "border-gray-200 hover:border-spice-turmeric/50"
                     }`}
                     onClick={() => setSelectedSize("full")}
                   >
-                    Full Size - 500g
-                    <span className="ml-1 font-normal">(${product.price.toFixed(2)})</span>
-                  </Button>
-                </div>
-              </div>
-              
-              <div className="mb-6">
-                <h3 className="text-lg font-medium mb-3">Quantity:</h3>
-                <div className="flex">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-10 w-10 border border-spice-brown/20"
-                    onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                    disabled={quantity === 1}
-                  >
-                    -
-                  </Button>
-                  
-                  <div className="h-10 px-4 flex items-center justify-center border-t border-b border-spice-brown/20 min-w-[60px] text-center">
-                    {quantity}
+                    <div className="text-center">
+                      <h4 className="font-semibold text-spice-brown">Full Size</h4>
+                      <p className="text-sm text-gray-600">500g - Family pack</p>
+                      <p className="text-lg font-bold text-spice-red mt-2">
+                        ${product.price.toFixed(2)}
+                      </p>
+                    </div>
                   </div>
-                  
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-10 w-10 border border-spice-brown/20"
-                    onClick={() => setQuantity(prev => prev + 1)}
-                  >
-                    +
-                  </Button>
                 </div>
               </div>
               
-              <div className="mb-6">
-                <h3 className="text-lg font-medium mb-2">Price:</h3>
-                <div className="text-2xl font-bold">
-                  ${selectedSize === "trial" 
-                    ? (product.price * 0.5 * quantity).toFixed(2)
-                    : (product.price * quantity).toFixed(2)
-                  }
-                </div>
-                {quantity >= 3 && selectedSize === "trial" && (
-                  <div className="badge-offer mt-2">
-                    Buy 2, Get 1 Free Offer Applied!
+              {/* Quantity and Price */}
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-medium mb-3">Quantity:</h3>
+                  <div className="flex items-center justify-center sm:justify-start space-x-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-12 w-12 rounded-full border-spice-brown/20"
+                      onClick={decrementQuantity}
+                      disabled={quantity === 1}
+                    >
+                      <Minus className="h-4 w-4" />
+                    </Button>
+                    
+                    <div className="text-xl font-semibold text-center min-w-[3rem]">
+                      {quantity}
+                    </div>
+                    
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-12 w-12 rounded-full border-spice-brown/20"
+                      onClick={incrementQuantity}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
                   </div>
-                )}
+                </div>
+                
+                <div className="text-center sm:text-left">
+                  <h3 className="text-lg font-medium mb-2">Total Price:</h3>
+                  <div className="text-3xl font-bold text-spice-red">
+                    ${(currentPrice * quantity).toFixed(2)}
+                  </div>
+                  {quantity >= 3 && selectedSize === "trial" && (
+                    <div className="bg-spice-turmeric/20 text-spice-brown px-3 py-1 rounded-full text-sm font-medium mt-2 inline-block">
+                      Buy 2, Get 1 Free Offer Applied!
+                    </div>
+                  )}
+                </div>
               </div>
               
+              {/* Add to Cart Button */}
               <Button
                 onClick={handleAddToCart}
-                className="w-full bg-spice-red hover:bg-spice-red/90 text-white py-6 text-lg"
+                className="w-full bg-spice-red hover:bg-spice-red/90 text-white py-6 text-lg font-semibold"
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
-                Add to Cart
+                Add to Cart - ${(currentPrice * quantity).toFixed(2)}
               </Button>
               
-              <div className="mt-4 text-sm text-gray-500 flex items-center">
+              <div className="text-sm text-gray-500 flex items-center justify-center sm:justify-start">
                 <Leaf className="mr-2 h-4 w-4 text-spice-green" />
                 Free shipping on orders over $35
               </div>
             </div>
           </div>
           
+          {/* Product Information Tabs */}
           <div className="mt-12">
             <Tabs defaultValue="ingredients" className="w-full">
-              <TabsList className="w-full grid grid-cols-4 h-auto">
+              <TabsList className="w-full grid grid-cols-2 lg:grid-cols-4 h-auto">
                 <TabsTrigger 
                   value="ingredients" 
-                  className="py-3 data-[state=active]:text-spice-red"
+                  className="py-3 data-[state=active]:text-spice-red text-xs sm:text-sm"
                 >
                   Ingredients
                 </TabsTrigger>
                 <TabsTrigger 
                   value="cultural" 
-                  className="py-3 data-[state=active]:text-spice-red"
+                  className="py-3 data-[state=active]:text-spice-red text-xs sm:text-sm"
                 >
                   History
                 </TabsTrigger>
                 <TabsTrigger 
                   value="nutrition" 
-                  className="py-3 data-[state=active]:text-spice-red"
+                  className="py-3 data-[state=active]:text-spice-red text-xs sm:text-sm"
                 >
-                  Nutrition & Allergens
+                  Nutrition
                 </TabsTrigger>
                 <TabsTrigger 
                   value="usage" 
-                  className="py-3 data-[state=active]:text-spice-red"
+                  className="py-3 data-[state=active]:text-spice-red text-xs sm:text-sm"
                 >
-                  Usage & Recipes
+                  Recipes
                 </TabsTrigger>
               </TabsList>
               
