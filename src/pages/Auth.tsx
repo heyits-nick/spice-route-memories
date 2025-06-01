@@ -23,6 +23,7 @@ const Auth = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [registrationType, setRegistrationType] = useState<"phone" | "email">("phone");
 
   const handleAuthRedirect = () => {
     const redirectPath = sessionStorage.getItem("redirectPath") || "/";
@@ -153,70 +154,103 @@ const Auth = () => {
               </TabsContent>
               
               <TabsContent value="register">
-                <form onSubmit={handleSignUp} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input
-                        id="firstName"
-                        placeholder="John"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        required
-                      />
+                <div className="space-y-6">
+                  <div className="flex justify-center">
+                    <div className="inline-flex rounded-lg border border-gray-200 p-1">
+                      <button
+                        type="button"
+                        onClick={() => setRegistrationType("phone")}
+                        className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                          registrationType === "phone"
+                            ? "bg-spice-red text-white"
+                            : "text-gray-700 hover:text-gray-900"
+                        }`}
+                      >
+                        Phone
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setRegistrationType("email")}
+                        className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                          registrationType === "email"
+                            ? "bg-spice-red text-white"
+                            : "text-gray-700 hover:text-gray-900"
+                        }`}
+                      >
+                        Email
+                      </button>
                     </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input
-                        id="lastName"
-                        placeholder="Doe"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                      />
-                    </div>
                   </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="registerEmail">Email</Label>
-                    <Input
-                      id="registerEmail"
-                      type="email"
-                      placeholder="spice@pudilicious.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="registerPassword">Password</Label>
-                    <Input
-                      id="registerPassword"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                    <p className="text-xs text-gray-500">
-                      Password must be at least 6 characters long
-                    </p>
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-spice-red hover:bg-spice-red/90"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                      <ArrowRight className="mr-2 h-4 w-4" />
-                    )}
-                    Create Account
-                  </Button>
-                </form>
+
+                  {registrationType === "phone" ? (
+                    <PhoneAuth onSuccess={handleAuthRedirect} />
+                  ) : (
+                    <form onSubmit={handleSignUp} className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="firstName">First Name</Label>
+                          <Input
+                            id="firstName"
+                            placeholder="John"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            required
+                          />
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor="lastName">Last Name</Label>
+                          <Input
+                            id="lastName"
+                            placeholder="Doe"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            required
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="registerEmail">Email</Label>
+                        <Input
+                          id="registerEmail"
+                          type="email"
+                          placeholder="spice@pudilicious.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="registerPassword">Password</Label>
+                        <Input
+                          id="registerPassword"
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
+                        <p className="text-xs text-gray-500">
+                          Password must be at least 6 characters long
+                        </p>
+                      </div>
+                      
+                      <Button 
+                        type="submit" 
+                        className="w-full bg-spice-red hover:bg-spice-red/90"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <ArrowRight className="mr-2 h-4 w-4" />
+                        )}
+                        Create Account
+                      </Button>
+                    </form>
+                  )}
+                </div>
               </TabsContent>
             </Tabs>
             

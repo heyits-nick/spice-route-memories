@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
@@ -25,6 +24,7 @@ const Checkout = () => {
 
   const [shippingDetails, setShippingDetails] = useState({
     fullName: profile?.first_name && profile?.last_name ? `${profile.first_name} ${profile.last_name}` : "",
+    email: user?.email || "",
     addressLine1: "",
     addressLine2: "",
     city: "",
@@ -91,7 +91,7 @@ const Checkout = () => {
                 country: shippingDetails.country,
               },
               phone: shippingDetails.phone,
-              email: user?.email || undefined,
+              email: shippingDetails.email,
             },
           },
         }
@@ -178,6 +178,19 @@ const Checkout = () => {
                             value={shippingDetails.fullName}
                             onChange={handleInputChange}
                             required
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="email">Email Address</Label>
+                          <Input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={shippingDetails.email}
+                            onChange={handleInputChange}
+                            required
+                            placeholder="your@email.com"
                           />
                         </div>
                         
@@ -275,6 +288,7 @@ const Checkout = () => {
                       <div className="mb-6">
                         <h3 className="font-medium text-lg mb-2">Shipping to:</h3>
                         <p>{shippingDetails.fullName}</p>
+                        <p>{shippingDetails.email}</p>
                         <p>{shippingDetails.addressLine1}</p>
                         {shippingDetails.addressLine2 && <p>{shippingDetails.addressLine2}</p>}
                         <p>
