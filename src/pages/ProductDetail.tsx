@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useCart, ProductSize } from "@/context/CartContext";
 import { Separator } from "@/components/ui/separator";
 import { ShoppingCart, ArrowLeft, Leaf, Info, Heart, Plus, Minus } from "lucide-react";
@@ -105,7 +106,7 @@ const ProductDetail = () => {
             {/* Product Details */}
             <div className="space-y-6">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold font-playfair text-spice-brown mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-playfair text-spice-brown mb-2">
                   {product.name}
                 </h1>
                 
@@ -114,7 +115,7 @@ const ProductDetail = () => {
                   <span className="text-sm">Handcrafted in small batches</span>
                 </div>
                 
-                <p className="text-lg text-gray-700 mb-6">
+                <p className="text-base sm:text-lg text-gray-700 mb-6">
                   {product.longDescription}
                 </p>
               </div>
@@ -124,14 +125,15 @@ const ProductDetail = () => {
               {/* Size Selection */}
               <div>
                 <h3 className="text-lg font-medium mb-4">Choose Your Size:</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div 
-                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                      selectedSize === "trial" 
-                        ? "border-spice-turmeric bg-spice-turmeric/10" 
-                        : "border-gray-200 hover:border-spice-turmeric/50"
-                    }`}
-                    onClick={() => setSelectedSize("trial")}
+                <ToggleGroup 
+                  type="single" 
+                  value={selectedSize} 
+                  onValueChange={(value: ProductSize) => value && setSelectedSize(value)}
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full"
+                >
+                  <ToggleGroupItem 
+                    value="trial"
+                    className="p-4 data-[state=on]:bg-spice-turmeric/20 data-[state=on]:text-spice-brown border-2 border-gray-200 data-[state=on]:border-spice-turmeric hover:border-spice-turmeric/50 transition-all h-auto flex-col"
                   >
                     <div className="text-center">
                       <h4 className="font-semibold text-spice-brown">Trial Pack</h4>
@@ -140,15 +142,11 @@ const ProductDetail = () => {
                         ${(product.price * 0.5).toFixed(2)}
                       </p>
                     </div>
-                  </div>
+                  </ToggleGroupItem>
                   
-                  <div 
-                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                      selectedSize === "full" 
-                        ? "border-spice-turmeric bg-spice-turmeric/10" 
-                        : "border-gray-200 hover:border-spice-turmeric/50"
-                    }`}
-                    onClick={() => setSelectedSize("full")}
+                  <ToggleGroupItem 
+                    value="full"
+                    className="p-4 data-[state=on]:bg-spice-turmeric/20 data-[state=on]:text-spice-brown border-2 border-gray-200 data-[state=on]:border-spice-turmeric hover:border-spice-turmeric/50 transition-all h-auto flex-col"
                   >
                     <div className="text-center">
                       <h4 className="font-semibold text-spice-brown">Full Size</h4>
@@ -157,15 +155,15 @@ const ProductDetail = () => {
                         ${product.price.toFixed(2)}
                       </p>
                     </div>
-                  </div>
-                </div>
+                  </ToggleGroupItem>
+                </ToggleGroup>
               </div>
               
-              {/* Quantity and Price */}
-              <div className="space-y-4">
+              {/* Quantity and Price - Fixed Mobile Layout */}
+              <div className="space-y-6">
                 <div>
                   <h3 className="text-lg font-medium mb-3">Quantity:</h3>
-                  <div className="flex items-center justify-center sm:justify-start space-x-4">
+                  <div className="flex items-center justify-center space-x-4">
                     <Button
                       type="button"
                       variant="outline"
@@ -193,9 +191,9 @@ const ProductDetail = () => {
                   </div>
                 </div>
                 
-                <div className="text-center sm:text-left">
+                <div className="text-center">
                   <h3 className="text-lg font-medium mb-2">Total Price:</h3>
-                  <div className="text-3xl font-bold text-spice-red">
+                  <div className="text-2xl sm:text-3xl font-bold text-spice-red">
                     ${(currentPrice * quantity).toFixed(2)}
                   </div>
                   {quantity >= 3 && selectedSize === "trial" && (
@@ -215,7 +213,7 @@ const ProductDetail = () => {
                 Add to Cart - ${(currentPrice * quantity).toFixed(2)}
               </Button>
               
-              <div className="text-sm text-gray-500 flex items-center justify-center sm:justify-start">
+              <div className="text-sm text-gray-500 flex items-center justify-center">
                 <Leaf className="mr-2 h-4 w-4 text-spice-green" />
                 Free shipping on orders over $35
               </div>

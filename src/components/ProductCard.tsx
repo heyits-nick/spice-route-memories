@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Info, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/context/CartContext";
+import { useCart, ProductSize } from "@/context/CartContext";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "sonner";
 import { getProductBySlug } from "@/data/products";
 
@@ -21,21 +22,28 @@ interface ProductCardProps {
 const ProductCard = ({ id, name, description, image, slug, price }: ProductCardProps) => {
   const { addItem } = useCart();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState<ProductSize>("trial");
   
   const product = getProductBySlug(slug);
 
+  const getCurrentPrice = () => {
+    if (!price) return 0;
+    return selectedSize === "trial" ? price * 0.5 : price;
+  };
+
   const handleAddToCart = () => {
     if (price) {
+      const currentPrice = getCurrentPrice();
       addItem({
         id,
         name,
-        price,
+        price: currentPrice,
         image,
-        size: "trial",
+        size: selectedSize,
         quantity: 1,
       });
       
-      toast.success(`${name} added to your cart`);
+      toast.success(`${name} (${selectedSize === "trial" ? "Trial Pack" : "Full Size"}) added to your cart`);
     }
   };
 
@@ -62,9 +70,37 @@ const ProductCard = ({ id, name, description, image, slug, price }: ProductCardP
           {description}
         </p>
         
+        {/* Size Selection Toggle */}
+        <div className="mb-4">
+          <ToggleGroup 
+            type="single" 
+            value={selectedSize} 
+            onValueChange={(value: ProductSize) => value && setSelectedSize(value)}
+            className="w-full grid grid-cols-2 gap-1"
+          >
+            <ToggleGroupItem 
+              value="trial" 
+              className="text-xs py-2 data-[state=on]:bg-spice-turmeric/20 data-[state=on]:text-spice-brown border border-spice-brown/20"
+            >
+              Trial Pack
+            </ToggleGroupItem>
+            <ToggleGroupItem 
+              value="full" 
+              className="text-xs py-2 data-[state=on]:bg-spice-turmeric/20 data-[state=on]:text-spice-brown border border-spice-brown/20"
+            >
+              Full Size
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
+        
         <div className="flex items-center justify-between mb-4">
           {price ? (
-            <span className="font-bold text-lg">${price.toFixed(2)}</span>
+            <div className="text-left">
+              <span className="font-bold text-lg">${getCurrentPrice().toFixed(2)}</span>
+              <div className="text-xs text-gray-500">
+                {selectedSize === "trial" ? "100g" : "500g"}
+              </div>
+            </div>
           ) : (
             <span className="text-sm text-gray-500">Price unavailable</span>
           )}
@@ -202,7 +238,7 @@ const ProductCard = ({ id, name, description, image, slug, price }: ProductCardP
             className="w-full bg-spice-turmeric hover:bg-spice-turmeric/90 text-black"
           >
             <ShoppingCart className="mr-2 h-4 w-4" />
-            Add to Cart
+            Add to Cart - ${getCurrentPrice().toFixed(2)}
           </Button>
         )}
       </div>

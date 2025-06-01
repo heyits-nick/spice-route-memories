@@ -32,6 +32,7 @@ const FeaturedProducts = () => {
               description={product.description}
               image={product.image}
               slug={product.slug}
+              price={product.price}
             />
           ))}
           
