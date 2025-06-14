@@ -11,7 +11,7 @@ const HeroBanner = () => {
             <img src={mockImages.logo} alt="Pudilicious logo" style={{
             marginTop: 0,
             marginBottom: 0
-          }} className="h-60 md:h-52 w-auto m-0 p-0 object-contain" />
+          }} className="h-60 md:h-52 w-auto m-0 p-0 object-fill" />
           </div>
           <p className="text-xl md:text-2xl italic font-medium mb-1 mt-2">
             Taste Grounded with Tradition
