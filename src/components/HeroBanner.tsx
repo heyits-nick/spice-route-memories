@@ -1,6 +1,8 @@
+
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { mockImages } from "../mock/images";
+
 const HeroBanner = () => {
   return <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
       {/* Decorative kolam pattern overlay */}
@@ -8,7 +10,7 @@ const HeroBanner = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10">
         <div className="text-center mb-12">
-          <div className="flex justify-center mb-6 px-0 py-0 my-0 mx-[240px] rounded-none">
+          <div className="flex justify-center mb-6">
             <img src={mockImages.logo} alt="Pudilicious logo" className="h-48 md:h-64 w-auto object-fill" />
           </div>
           
@@ -54,4 +56,5 @@ const HeroBanner = () => {
       </div>
     </div>;
 };
+
 export default HeroBanner;
