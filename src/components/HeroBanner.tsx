@@ -8,29 +8,29 @@ const HeroBanner = () => {
     <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
       {/* Decorative kolam pattern overlay */}
       <div className="absolute inset-0 opacity-10 bg-kolam-pattern bg-repeat"></div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5 relative z-10">
-        <div className="text-center mb-4">
-          <div className="flex justify-center mb-0">
-            <img
-              src={mockImages.logo}
-              alt="Pudilicious logo"
-              className="h-40 md:h-52 w-auto object-fill m-0 p-0"
-              style={{ marginTop: 0, marginBottom: 0 }}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 relative z-10">
+        <div className="text-center mb-6">
+          <div className="flex justify-center mb-2">
+            <img 
+              src={mockImages.logo} 
+              alt="Pudilicious logo" 
+              className="h-48 md:h-64 w-auto object-fill m-0"
+              style={{marginTop: 0, marginBottom: 0}}
             />
           </div>
-          <p className="text-xl md:text-2xl italic font-medium mb-1 mt-2">
+          <p className="text-xl md:text-2xl italic font-medium mb-2">
             Taste Grounded with Tradition
           </p>
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-lg md:text-xl font-medium mb-1">Flavors With Tradition</h2>
-            <p className="text-base md:text-lg mb-0">
-              Welcome to Pudi'licious, your one-stop shop for traditional Indian flavors.
-              Explore our varieties of pudis, fast-meals and snacks from different regions
+            <h2 className="text-lg md:text-xl font-medium mb-3">Flavors With Tradition</h2>
+            <p className="text-base md:text-lg">
+              Welcome to Pudi'licious, your one-stop shop for traditional Indian flavors. 
+              Explore our varieties of pudis, fast-meals and snacks from different regions 
               of Karnataka and other south Indian flavors.
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-10">
           <div className="order-2 md:order-1 animate-fade-in">
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Link to="/products" className="btn-primary inline-flex items-center justify-center">
@@ -59,4 +59,3 @@ const HeroBanner = () => {
 };
 
 export default HeroBanner;
-
