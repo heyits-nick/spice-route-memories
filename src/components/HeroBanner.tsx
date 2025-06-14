@@ -1,22 +1,17 @@
-
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { mockImages } from "../mock/images";
-
 const HeroBanner = () => {
-  return (
-    <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
+  return <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
       {/* Decorative kolam pattern overlay */}
       <div className="absolute inset-0 opacity-10 bg-kolam-pattern bg-repeat"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5 relative z-10">
         <div className="text-center mb-4">
           <div className="flex justify-center mb-0">
-            <img
-              src={mockImages.logo}
-              alt="Pudilicious logo"
-              className="h-40 md:h-52 w-auto object-fill m-0 p-0"
-              style={{ marginTop: 0, marginBottom: 0 }}
-            />
+            <img src={mockImages.logo} alt="Pudilicious logo" style={{
+            marginTop: 0,
+            marginBottom: 0
+          }} className="h-60 md:h-52 w-auto m-0 p-0 object-contain" />
           </div>
           <p className="text-xl md:text-2xl italic font-medium mb-1 mt-2">
             Taste Grounded with Tradition
@@ -54,9 +49,6 @@ const HeroBanner = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default HeroBanner;
-
