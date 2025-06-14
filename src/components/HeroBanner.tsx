@@ -8,17 +8,17 @@ const HeroBanner = () => {
       {/* Decorative kolam pattern overlay */}
       <div className="absolute inset-0 opacity-10 bg-kolam-pattern bg-repeat"></div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10">
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative z-10">
+        <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
             <img src={mockImages.logo} alt="Pudilicious logo" className="h-48 md:h-64 w-auto object-fill" />
           </div>
           
-          <p className="text-xl md:text-2xl italic font-medium mb-6">
+          <p className="text-xl md:text-2xl italic font-medium mb-4">
             Taste Grounded with Tradition
           </p>
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-lg md:text-xl font-medium mb-8">Flavors With Tradition</h2>
+            <h2 className="text-lg md:text-xl font-medium mb-6">Flavors With Tradition</h2>
             <p className="text-base md:text-lg">
               Welcome to Pudi'licious, your one-stop shop for traditional Indian flavors. 
               Explore our varieties of pudis, fast-meals and snacks from different regions 
