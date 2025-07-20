@@ -5,15 +5,12 @@ const HeroBanner = () => {
   return <div className="relative bg-gradient-to-r from-spice-brown to-spice-red text-white">
       {/* Decorative kolam pattern overlay */}
       <div className="absolute inset-0 opacity-10 bg-kolam-pattern bg-repeat"></div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5 relative z-10">
-        <div className="text-center mb-4">
-          <div className="flex justify-center mb-0">
-            <img src={mockImages.logo} alt="Pudilicious logo" style={{
-            marginTop: 0,
-            marginBottom: 0
-          }} className="h-60 md:h-52 w-auto m-0 p-0 object-fill" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-3 relative z-10">
+        <div className="text-center mb-2">
+          <div className="flex justify-center">
+            <img src={mockImages.logo} alt="Pudilicious logo" className="h-32 md:h-36 w-auto object-contain" />
           </div>
-          <p className="text-xl md:text-2xl italic font-medium mb-1 mt-2">
+          <p className="text-xl md:text-2xl italic font-medium mb-1 -mt-2">
             Taste Grounded with Tradition
           </p>
           <div className="max-w-2xl mx-auto">
