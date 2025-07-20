@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { ShoppingCart, ArrowLeft, Leaf, Info, Heart, Plus, Minus } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import ReviewSection from "@/components/ReviewSection";
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -351,6 +352,9 @@ const ProductDetail = () => {
               </TabsContent>
             </Tabs>
           </div>
+          
+          {/* Reviews Section */}
+          <ReviewSection productId={product.id} />
         </div>
       </main>
       
