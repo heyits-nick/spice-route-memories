@@ -75,6 +75,11 @@ const Navbar = () => {
                       {user.email}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => navigate("/profile")}>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>My Profile</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem className="cursor-pointer" onClick={handleSignOut}>
                       <LogOut className="mr-2 h-4 w-4" />
                       <span>Sign out</span>
@@ -129,18 +134,26 @@ const Navbar = () => {
                 Sign In
               </Link>
             ) : (
-              <button
-                onClick={() => {
-                  handleSignOut();
-                  setIsMenuOpen(false);
-                }}
-                className="block w-full text-left px-3 py-2 text-spice-brown hover:text-spice-red font-medium"
-              >
-                <div className="flex items-center">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sign out ({user.email})</span>
-                </div>
-              </button>
+              <>
+                <Link to="/profile" className="block px-3 py-2 text-spice-brown hover:text-spice-red font-medium" onClick={() => setIsMenuOpen(false)}>
+                  <div className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>My Profile</span>
+                  </div>
+                </Link>
+                <button
+                  onClick={() => {
+                    handleSignOut();
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full text-left px-3 py-2 text-spice-brown hover:text-spice-red font-medium"
+                >
+                  <div className="flex items-center">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sign out ({user.email})</span>
+                  </div>
+                </button>
+              </>
             )}
           </div>
         </div>

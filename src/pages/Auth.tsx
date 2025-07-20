@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PhoneAuth from "@/components/PhoneAuth";
-import { ArrowRight, Mail, Facebook, Loader2 } from "lucide-react";
+import { ArrowRight, Mail, Facebook, Loader2, Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 
 const Auth = () => {
@@ -24,6 +24,8 @@ const Auth = () => {
   const [lastName, setLastName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [registrationType, setRegistrationType] = useState<"phone" | "email">("phone");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
 
   const handleAuthRedirect = () => {
     const redirectPath = sessionStorage.getItem("redirectPath") || "/";
@@ -129,13 +131,28 @@ const Auth = () => {
                         Forgot password?
                       </a>
                     </div>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
                   </div>
                   
                   <Button 
@@ -224,13 +241,28 @@ const Auth = () => {
                       
                       <div className="space-y-2">
                         <Label htmlFor="registerPassword">Password</Label>
-                        <Input
-                          id="registerPassword"
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          required
-                        />
+                        <div className="relative">
+                          <Input
+                            id="registerPassword"
+                            type={showRegisterPassword ? "text" : "password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                            onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                          >
+                            {showRegisterPassword ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </div>
                         <p className="text-xs text-gray-500">
                           Password must be at least 6 characters long
                         </p>

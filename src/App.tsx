@@ -21,6 +21,7 @@ import OrderConfirmation from "./pages/OrderConfirmation";
 import NotFound from "./pages/NotFound";
 import OurStory from "./pages/OurStory";
 import Deals from "./pages/Deals";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,11 @@ const App = () => (
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/auth/callback" element={<AuthCallback />} />
+                  <Route path="/profile" element={
+                    <RequireAuth>
+                      <Profile />
+                    </RequireAuth>
+                  } />
                   <Route path="/checkout" element={
                     <RequireAuth>
                       <Checkout />
